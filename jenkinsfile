@@ -1,11 +1,32 @@
 pipeline {
     agent any
-
+    environment {
+        KUBECONFIG = 'C:\\path\\to\\kubeconfig'  
+        IMAGE_NAME = 'chareesh123/firstrepo'    
+    }
     stages {
-        stage('building') {
+        stage('Deploy') {
             steps {
-                bat 'docker build -t myapp .'
-                bat 'docker run -d -p 5000:5000 myapp'
+                script {
+                    echo 'Applying Kubernetes deployment...'
+                    bat 'kubectl apply -f deployment.yaml'
+                }
+            }
+        }
+        stage('Expose') {
+            steps {
+                script {
+                    echo 'Creating Kubernetes service...'
+                    bat 'kubectl expose deployment nginx-deployment --type=NodePort --port=5000'
+                }
+            }
+        }
+        stage('Verify') {
+            steps {
+                script {
+                    echo 'Verifying deployment...'
+                    bat 'kubectl get pods'
+                }
             }
         }
     }

@@ -1,0 +1,21 @@
+apiVersion: apps/v1         # API version for the Deployment resource
+kind: Deployment            # Declares this as a Deployment object
+metadata:                   # Metadata about the Deployment
+  name: node-deployment    # The name of the Deployment
+  labels:                   # Optional labels for organization
+    app: node
+spec:                       # Specification for the Deployment
+  replicas: 2               # Number of Pod replicas to run
+  selector:                 # Specifies how to identify Pods managed by this Deployment
+    matchLabels:
+      app: node            # Pods with this label will be part of this Deployment
+  template:                 # Template to define the Pods that will be created
+    metadata:               # Metadata for the Pods
+      labels:
+        app: node          # Assign this label to all created Pods
+    spec:                   # Specification for the Pod itself
+      containers:           # List of containers in the Pod
+      - name: cherry        # Name of the container
+        image: chareesh123/firstrepo # Docker image to use (Nginx version 1.21.6)
+        ports:              # Ports to expose on the container
+        - containerPort: 5000 # Expose port 80 (default for Nginx)
