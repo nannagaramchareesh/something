@@ -1,0 +1,12 @@
+pipeline {
+    agent any
+
+    stages {
+        stage('building') {
+            steps {
+                bat 'docker build -t myapp .'
+                bat 'docker run -d -p 5000:5000 myapp'
+            }
+        }
+    }
+}
