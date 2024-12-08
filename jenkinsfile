@@ -14,7 +14,7 @@ pipeline {
             steps {
                 script {
                     echo 'Creating Kubernetes service...'
-                    bat 'kubectl expose deployment node-deployment --type=NodePort --port=3000'
+                    bat 'kubectl apply -f service.yaml'
                 }
             }
         }
